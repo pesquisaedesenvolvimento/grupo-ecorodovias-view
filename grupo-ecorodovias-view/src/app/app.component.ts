@@ -9,7 +9,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class AppComponent implements OnInit {
 
   public loadFinish: boolean = false;
-  public displayedColumns: string[] = ['data', 'sensor1', 'sensor2', 'sensor3', 'latlong'];
+  public displayedColumns: string[] = ['data', 'sensor1', 'sensor2', 'latlong'];
 
   public items: DadosSensores[] = [];
   public title = 'Painel Monitoramento';
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
         
         values.forEach((item) => {
           var dataItem = item.payload.doc.data();
+          dataItem.data = new Date(dataItem.data.seconds * 1000);
 
           dataItem.gruposensorid.get()
             .then((value) => {
@@ -64,7 +65,6 @@ class DadosSensores {
   public gruposensorid: any;
   public sensor1: number | undefined;
   public sensor2: number | undefined;
-  public sensor3: number | undefined;
   public grupoSensores: GruposSensores;
 }
 
