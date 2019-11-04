@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
@@ -6,7 +6,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  public loadFinish: boolean = false;
+  public displayedColumns: string[] = ['data', 'sensor1', 'sensor2', 'sensor3', 'latlong'];
 
   public items: DadosSensores[] = [];
   public title = 'Painel Monitoramento';
@@ -14,11 +17,17 @@ export class AppComponent {
   public lng = 0;
   public zoom = 15;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore) {
+  }
 
-    afs.collection<DadosSensores>('dadossensores').snapshotChanges()
+  public ngOnInit(): void {
+    const that = this;
+
+    this.afs.collection<DadosSensores>('dadossensores').snapshotChanges()
       .subscribe((values) => {
-        this.items = [];
+        that.items = [];
+        that.loadFinish = false;
+        
         values.forEach((item) => {
           var dataItem = item.payload.doc.data();
 
@@ -27,7 +36,11 @@ export class AppComponent {
               var cast = value.data() as GruposSensores;
               dataItem.grupoSensores = cast;
 
-              this.items.push(dataItem);
+              that.items.push(dataItem);
+
+              if (that.items.length == values.length) {
+                that.loadFinish = true;
+              }
             }).catch((error) => {
               console.error('ERROR REFERENCIA:', error);
             });
@@ -41,7 +54,7 @@ export class AppComponent {
   public itemSelecionado(item: DadosSensores) {
     if (item.grupoSensores) {
       this.lat = item.grupoSensores.geolocalizacao['_lat'];
-      this.lng = item.grupoSensores.geolocalizacao['_long']  
+      this.lng = item.grupoSensores.geolocalizacao['_long']
     }
   }
 }
