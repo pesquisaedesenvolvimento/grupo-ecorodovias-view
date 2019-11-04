@@ -10,26 +10,38 @@ export class AppComponent {
 
   public items: DadosSensores[];
   public title = 'Painel Monitoramento';
-  public lat = -23.5870834;
-  public lng = -46.5026512;
+  public lat = 0;
+  public lng = 0;
   public zoom = 15;
 
-  constructor(private afs: AngularFirestore){
+  constructor(private afs: AngularFirestore) {
 
     this.items = [];
 
     afs.collection<DadosSensores>('dadossensores').get()
-    .subscribe((value) => {
-      console.log('SUCESSO: ', value.docs);
+      .subscribe((value) => {
+        value.docs.forEach((item) => {
+          var convertItem = item.data() as DadosSensores;
 
-      value.docs.forEach((item) =>{
-         var convertItem = item.data() as DadosSensores;
-         this.items.push(convertItem);
-      });
-    }, 
-    ((error) => {
-      console.error('ERROR: ', error);
-    }));
+          item.data().gruposensorid.get()
+            .then((value) => {
+              var cast = value.data() as GruposSensores;
+              convertItem.grupoSensores = cast;
+
+              this.items.push(convertItem);
+            }).catch((error) => {
+              console.error('ERROR REFERENCIA:', error);
+            });
+        });
+      },
+        ((error) => {
+          console.error('ERROR: ', error);
+        }));
+  }
+
+  public itemSelecionado(item: DadosSensores) {
+    this.lat = item.grupoSensores.geolocalizacao['_lat'];
+    this.lng = item.grupoSensores.geolocalizacao['_long']
   }
 }
 
@@ -39,4 +51,11 @@ class DadosSensores {
   public sensor1: number | undefined;
   public sensor2: number | undefined;
   public sensor3: number | undefined;
+  public grupoSensores: GruposSensores;
+}
+
+class GruposSensores {
+  public dataultimasincronizacao: Date | undefined;
+  public geolocalizacao: any;
+  public id: number | undefined;
 }
