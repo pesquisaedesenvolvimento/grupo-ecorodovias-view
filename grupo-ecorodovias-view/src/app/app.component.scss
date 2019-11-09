@@ -2,6 +2,24 @@ agm-map {
     height: 450px;
   }
 
+  .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
+    background-color: #3bc710 !important;
+  }
+
+  .mat-chip.mat-standard-chip.mat-chip-selected.mat-accent{
+    background-color: #c71035 !important;
+    color: white;
+  }
+
+  .mat-chip.mat-standard-chip.mat-chip-selected.mat-accent.attention{
+    background-color: #e8eb34 !important;
+    color: white;
+  }
+
+  .legends {
+    margin-top: 20px;
+  }
+
   table {
     width: 100%;
   }

@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
       apiKey: 'AIzaSyDfH7KjRwY0FIsq0bPbfx3swLZmK-lV9yY'
     }),
     NoopAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

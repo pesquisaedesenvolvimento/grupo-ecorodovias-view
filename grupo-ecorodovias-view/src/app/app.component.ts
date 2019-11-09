@@ -8,8 +8,12 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AppComponent implements OnInit {
 
+  public okColor = "#3bc710";
+  public errorColor = "#c71035";
+  public attentionColor = "#e8eb34";
+
   public loadFinish: boolean = false;
-  public displayedColumns: string[] = ['data', 'sensor1', 'sensor2', 'latlong'];
+  public displayedColumns: string[] = ['alerta', 'data', 'sensor1', 'sensor2', 'latlong'];
 
   public items: DadosSensores[] = [];
   public title = 'Painel Monitoramento';
@@ -36,6 +40,13 @@ export class AppComponent implements OnInit {
             .then((value) => {
               var cast = value.data() as GruposSensores;
               dataItem.grupoSensores = cast;
+              dataItem.alerta = that.okColor;
+              
+              if (dataItem.sensor1 > 10 && dataItem.sensor1 < 30) {
+                dataItem.alerta = that.attentionColor;
+              } else if (dataItem.sensor2 > 0) {
+                dataItem.alerta = that.errorColor;
+              }
 
               that.items.push(dataItem);
 
@@ -61,6 +72,7 @@ export class AppComponent implements OnInit {
 }
 
 class DadosSensores {
+  public alerta: string;
   public data: any;
   public gruposensorid: any;
   public sensor1: number | undefined;
