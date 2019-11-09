@@ -13,10 +13,10 @@ export class AppComponent implements OnInit {
   public attentionColor = "#e8eb34";
 
   public loadFinish: boolean = false;
-  public displayedColumns: string[] = ['alerta', 'data', 'sensor1', 'sensor2', 'latlong'];
+  public displayedColumns: string[] = ['alerta', 'data', 'latlong'];
 
   public items: DadosSensores[] = [];
-  public title = 'Painel Monitoramento';
+  public title = 'Painel de Monitoramento';
   public lat = 0;
   public lng = 0;
   public zoom = 15;
@@ -42,10 +42,10 @@ export class AppComponent implements OnInit {
               dataItem.grupoSensores = cast;
               dataItem.alerta = that.okColor;
               
-              if (dataItem.sensor1 > 10 && dataItem.sensor1 < 30) {
-                dataItem.alerta = that.attentionColor;
-              } else if (dataItem.sensor2 > 0) {
+              if (dataItem.sensor2 > 30) {
                 dataItem.alerta = that.errorColor;
+              } else if (dataItem.sensor1 >= 15 && dataItem.sensor1 <= 29) {
+                dataItem.alerta = that.attentionColor;
               }
 
               that.items.push(dataItem);

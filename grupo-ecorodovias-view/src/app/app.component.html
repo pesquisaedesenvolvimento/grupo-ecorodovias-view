@@ -15,25 +15,13 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="data">
-          <th mat-header-cell *matHeaderCellDef> Data </th>
-          <td mat-cell *matCellDef="let element"> {{element.data | date:'yyyy/MM/dd h:mm:ss a'}} </td>
-        </ng-container>
-
-        <!-- Weight Column -->
-        <ng-container matColumnDef="sensor1">
-          <th mat-header-cell *matHeaderCellDef> Sensor 1 </th>
-          <td mat-cell *matCellDef="let element"> {{element.sensor1}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="sensor2">
-          <th mat-header-cell *matHeaderCellDef> Sensor 2 </th>
-          <td mat-cell *matCellDef="let element"> {{element.sensor2}} </td>
+          <th mat-header-cell *matHeaderCellDef class="padding"> Data </th>
+          <td mat-cell *matCellDef="let element" class="padding"> {{element.data | date:'yyyy/MM/dd h:mm:ss a'}} </td>
         </ng-container>
 
         <!-- LAT / LONG -->
         <ng-container matColumnDef="latlong">
-          <th mat-header-cell *matHeaderCellDef> LAT/LONG </th>
+          <th mat-header-cell *matHeaderCellDef> LATITUDE/LONGITUDE </th>
           <td mat-cell *matCellDef="let element">
             {{element.grupoSensores.geolocalizacao['_lat']}},{{element.grupoSensores.geolocalizacao['_long']}} </td>
         </ng-container>
@@ -45,9 +33,9 @@
       <div class="legends">
         <h4>Legenda: alerta crescimento da grama.</h4>
         <mat-chip-list aria-label="Fish selection">
-          <mat-chip color="primary" selected>OK</mat-chip>
-          <mat-chip color="accent" class="attention" selected>ATENÇÃO</mat-chip>
-          <mat-chip color="accent" selected>ACIMA</mat-chip>
+          <mat-chip color="primary" selected>OK ATÉ 15CM</mat-chip>
+          <mat-chip color="accent" class="attention" selected>ATENÇÃO ENTRE 15CM E 29CM</mat-chip>
+          <mat-chip color="accent" selected>ACIMA DE 30CM</mat-chip>
         </mat-chip-list>
       </div>
     </div>
